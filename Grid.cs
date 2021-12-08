@@ -3,7 +3,7 @@
 namespace Snake;
 
 class Grid {
-    const char BORDER = '#', PLAYER = 'P';
+    const char BORDER = '#', PLAYER = 'O';
     public int Width { get; }
     public int Height { get; }
     readonly char[,] grid;
