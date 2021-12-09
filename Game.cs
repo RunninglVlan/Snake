@@ -47,7 +47,7 @@ class Game {
             DrawGame();
         }
 
-        bool PlayerOutOfGrid() => player.X < 0 || player.X > grid.Width || player.Y < 0 || player.Y > grid.Height;
+        bool PlayerOutOfGrid() => player.X < 0 || player.X >= grid.Width || player.Y < 0 || player.Y >= grid.Height;
     }
 
     void DrawControls() {

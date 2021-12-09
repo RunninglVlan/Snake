@@ -12,11 +12,21 @@ abstract record Data(int X, int Y, char Image) {
 }
 
 record Player(int X, int Y, char Image) : Data(X, Y, Image) {
+    const float VERTICAL_MULTIPLIER = 1.5f;
+
     ConsoleKey direction;
     Stopwatch time = null!;
 
     public int Length { get; set; } = 1;
-    int Interval => Length < 10 ? 1_000 - Length * 100 + 100 : 100;
+
+    int Interval {
+        get {
+            var interval = Length < 10 ? 1_000 - Length * 100 + 100 : 100;
+            return direction is ConsoleKey.UpArrow or ConsoleKey.DownArrow
+                ? (int)(interval * VERTICAL_MULTIPLIER)
+                : interval;
+        }
+    }
 
     public bool TimeToMove() => time.ElapsedMilliseconds >= Interval;
 
