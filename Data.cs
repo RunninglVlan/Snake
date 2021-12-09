@@ -55,4 +55,20 @@ record Player(int X, int Y, char Image) : Data(X, Y, Image) {
     }
 }
 
-record Berry(int X, int Y, char Image) : Data(X, Y, Image);
+record Berry(int gridWidth, int gridHeight, char Image) : Data(0, 0, Image) {
+    readonly int gridWidth = gridWidth;
+    readonly int gridHeight = gridHeight;
+
+    readonly Random random = new();
+    Stopwatch time = null!;
+    long life;
+
+    public void Move() {
+        X = random.Next(0, gridWidth);
+        Y = random.Next(0, gridHeight);
+        time = Stopwatch.StartNew();
+        life = random.Next(3_000, 7_000);
+    }
+
+    public bool Alive() => time.ElapsedMilliseconds < life;
+}

@@ -5,6 +5,7 @@ namespace Snake;
 class Game {
     readonly Grid grid;
     readonly Player player;
+    readonly Berry berry;
     bool running;
     ConsoleKey direction;
     int controlsHeight;
@@ -12,14 +13,21 @@ class Game {
     public Game(int width, int height) {
         grid = new Grid(width, height);
         grid.Add(player = new Player(0, grid.Height / 2, 'O'));
+        grid.Add(berry = new Berry(width, height, 'B'));
     }
 
     public void Play() {
         DrawControls();
         running = true;
+        berry.Move();
         player.Move(direction = ConsoleKey.RightArrow);
         while (running) {
             ReadInput();
+
+            if (!berry.Alive()) {
+                berry.Move();
+                DrawGame();
+            }
 
             if (player.TimeToMove()) {
                 player.Move(direction);
