@@ -16,6 +16,7 @@ class Grid {
     }
 
     void AddBorders() {
+        Console.Clear();
         for (var y = 0; y < Height + 2; y++) {
             for (var x = 0; x < Width + 2; x++) {
                 Console.Write(Border(x, y) ? BORDER : ' ');
