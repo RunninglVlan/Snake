@@ -33,9 +33,13 @@ class Game {
                 continue;
             }
 
-            player.Move(direction);
+            if (!player.Move(direction)) {
+                DrawGameOver();
+                break;
+            }
+
             if (player.PositionEquals(berry)) {
-                player.Length++;
+                grid.Add(player.IncreaseTail());
                 berry.Move();
             }
 

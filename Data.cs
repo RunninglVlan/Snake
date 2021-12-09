@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Snake;
 
-abstract record Data(int X, int Y, char Image) {
-    public int X { get; protected set; } = X;
-    public int Y { get; protected set; } = Y;
+record Data(int X, int Y, char Image) {
+    public int X { get; set; } = X;
+    public int Y { get; set; } = Y;
     public char Image { get; } = Image;
 
     public bool PositionEquals(Data other) => X == other.X && Y == other.Y;
@@ -16,8 +18,9 @@ record Player(int X, int Y, char Image) : Data(X, Y, Image) {
 
     ConsoleKey direction;
     Stopwatch time = null!;
+    readonly List<Data> tail = new();
 
-    public int Length { get; set; } = 1;
+    public int Length => tail.Count + 1;
 
     int Interval {
         get {
@@ -30,10 +33,10 @@ record Player(int X, int Y, char Image) : Data(X, Y, Image) {
 
     public bool TimeToMove() => time.ElapsedMilliseconds >= Interval;
 
-    public void Move(ConsoleKey newDirection) {
+    public bool Move(ConsoleKey newDirection) {
         SetDirection();
-        SetPosition();
         time = Stopwatch.StartNew();
+        return SetPosition();
 
         void SetDirection() {
             switch (direction) {
@@ -48,7 +51,14 @@ record Player(int X, int Y, char Image) : Data(X, Y, Image) {
             }
         }
 
-        void SetPosition() {
+        bool SetPosition() {
+            for (var index = tail.Count - 1; index >= 0; index--) {
+                var part = tail[index];
+                var nextPart = index - 1 >= 0 ? tail[index - 1] : this;
+                part.X = nextPart.X;
+                part.Y = nextPart.Y;
+            }
+
             switch (direction) {
                 case ConsoleKey.LeftArrow:
                     X--;
@@ -63,7 +73,16 @@ record Player(int X, int Y, char Image) : Data(X, Y, Image) {
                     Y++;
                     break;
             }
+
+            return tail.All(part => X != part.X || Y != part.Y);
         }
+    }
+
+    public Data IncreaseTail() {
+        var last = tail.Count > 0 ? tail.Last() : this;
+        var part = new Data(last.X, last.Y, 'o');
+        tail.Add(part);
+        return part;
     }
 }
 
