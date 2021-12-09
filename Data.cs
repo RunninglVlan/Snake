@@ -2,12 +2,12 @@
 
 namespace Snake;
 
-public abstract record Data(int X, int Y) {
+abstract record Data(int X, int Y) {
     public int X { get; protected set; } = X;
     public int Y { get; protected set; } = Y;
 }
 
-public record Player(int X, int Y) : Data(X, Y) {
+record Player(int X, int Y) : Data(X, Y) {
     ConsoleKey direction;
 
     public ConsoleKey Direction {
@@ -47,5 +47,4 @@ public record Player(int X, int Y) : Data(X, Y) {
     }
 }
 
-public record Berry(int X, int Y) : Data(X, Y) {
-}
+record Berry(int X, int Y) : Data(X, Y);

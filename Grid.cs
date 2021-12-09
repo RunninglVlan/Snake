@@ -6,12 +6,10 @@ class Grid {
     const char BORDER = '#', PLAYER = 'O';
     public int Width { get; }
     public int Height { get; }
-    readonly char[,] grid;
 
     public Grid(int width, int height) {
         Width = width;
         Height = height;
-        grid = new char[width, height];
         AddBorders();
     }
 
@@ -30,7 +28,7 @@ class Grid {
         for (var y = 0; y < Height; y++) {
             Console.SetCursorPosition(1, 1 + y);
             for (var x = 0; x < Width; x++) {
-                Console.Write(player.At(x, y) ? PLAYER : grid[x, y]);
+                Console.Write(player.At(x, y) ? PLAYER : ' ');
             }
         }
     }
