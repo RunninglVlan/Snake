@@ -27,9 +27,8 @@ class Grid {
         bool Border(int x, int y) => x == 0 || x == Width + 1 || y == 0 || y == Height + 1;
     }
 
-    public void Add(Data element) {
-        data.Add(element);
-    }
+    public void Add(Data element) => data.Add(element);
+    public void Remove(Data element) => data.Remove(element);
 
     public void Draw() {
         for (var y = 0; y < Height; y++) {

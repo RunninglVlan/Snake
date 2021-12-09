@@ -24,7 +24,7 @@ record Player(int X, int Y, char Image) : Data(X, Y, Image) {
 
     int Interval {
         get {
-            var interval = Length < 10 ? 1_000 - Length * 100 + 100 : 100;
+            var interval = Math.Max(800 - Length * 100, 100);
             return direction is ConsoleKey.UpArrow or ConsoleKey.DownArrow
                 ? (int)(interval * VERTICAL_MULTIPLIER)
                 : interval;
@@ -83,6 +83,14 @@ record Player(int X, int Y, char Image) : Data(X, Y, Image) {
         var part = new Data(last.X, last.Y, 'o');
         tail.Add(part);
         return part;
+    }
+
+    public void Clear(Grid grid) {
+        foreach (var part in tail) {
+            grid.Remove(part);
+        }
+
+        tail.Clear();
     }
 }
 
