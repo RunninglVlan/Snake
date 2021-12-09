@@ -11,37 +11,40 @@ abstract record Data(int X, int Y, char Image) {
 record Player(int X, int Y, char Image) : Data(X, Y, Image) {
     ConsoleKey direction;
 
-    public ConsoleKey Direction {
-        set {
+    public int Length { get; set; } = 1;
+
+    public void Move(ConsoleKey newDirection) {
+        SetDirection();
+        SetPosition();
+
+        void SetDirection() {
             switch (direction) {
-                case ConsoleKey.LeftArrow when value == ConsoleKey.RightArrow:
-                case ConsoleKey.RightArrow when value == ConsoleKey.LeftArrow:
-                case ConsoleKey.UpArrow when value == ConsoleKey.DownArrow:
-                case ConsoleKey.DownArrow when value == ConsoleKey.UpArrow:
+                case ConsoleKey.LeftArrow when newDirection == ConsoleKey.RightArrow:
+                case ConsoleKey.RightArrow when newDirection == ConsoleKey.LeftArrow:
+                case ConsoleKey.UpArrow when newDirection == ConsoleKey.DownArrow:
+                case ConsoleKey.DownArrow when newDirection == ConsoleKey.UpArrow:
                     return;
                 default:
-                    direction = value;
+                    direction = newDirection;
                     break;
             }
         }
-    }
 
-    public int Length { get; set; } = 1;
-
-    public void Move() {
-        switch (direction) {
-            case ConsoleKey.LeftArrow:
-                X--;
-                break;
-            case ConsoleKey.RightArrow:
-                X++;
-                break;
-            case ConsoleKey.UpArrow:
-                Y--;
-                break;
-            case ConsoleKey.DownArrow:
-                Y++;
-                break;
+        void SetPosition() {
+            switch (direction) {
+                case ConsoleKey.LeftArrow:
+                    X--;
+                    break;
+                case ConsoleKey.RightArrow:
+                    X++;
+                    break;
+                case ConsoleKey.UpArrow:
+                    Y--;
+                    break;
+                case ConsoleKey.DownArrow:
+                    Y++;
+                    break;
+            }
         }
     }
 }

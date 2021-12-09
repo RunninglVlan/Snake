@@ -15,10 +15,7 @@ class Game {
 
     public Game(int width, int height) {
         grid = new Grid(width, height);
-        player = new Player(1, grid.Height / 2, 'O') {
-            Direction = direction = ConsoleKey.RightArrow
-        };
-        grid.Add(player);
+        grid.Add(player = new Player(0, grid.Height / 2, 'O'));
         interval = 1_000;
         lastDraw = -interval;
     }
@@ -27,13 +24,14 @@ class Game {
         DrawControls();
         time = Stopwatch.StartNew();
         running = true;
+        player.Move(direction = ConsoleKey.RightArrow);
         while (running) {
             ReadInput();
             if (time.ElapsedMilliseconds - lastDraw <= interval) {
                 continue;
             }
-            player.Direction = direction;
-            player.Move();
+
+            player.Move(direction);
             if (PlayerOutOfGrid()) {
                 DrawGameOver();
                 break;
