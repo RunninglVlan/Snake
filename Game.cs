@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace Snake;
 
 class Game {
     readonly Grid grid;
     readonly Player player;
-    Stopwatch time = null!;
-    long interval;
-    long lastDraw;
     bool running;
     ConsoleKey direction;
     int controlsHeight;
@@ -16,29 +12,25 @@ class Game {
     public Game(int width, int height) {
         grid = new Grid(width, height);
         grid.Add(player = new Player(0, grid.Height / 2, 'O'));
-        interval = 1_000;
-        lastDraw = -interval;
     }
 
     public void Play() {
         DrawControls();
-        time = Stopwatch.StartNew();
         running = true;
         player.Move(direction = ConsoleKey.RightArrow);
         while (running) {
             ReadInput();
-            if (time.ElapsedMilliseconds - lastDraw <= interval) {
-                continue;
+
+            if (player.TimeToMove()) {
+                player.Move(direction);
+                DrawGame();
             }
 
-            player.Move(direction);
             if (PlayerOutOfGrid()) {
                 DrawGameOver();
                 break;
             }
-            DrawGame();
         }
-        time.Stop();
 
         bool PlayerOutOfGrid() => player.X < 0 || player.X > grid.Width || player.Y < 0 || player.Y > grid.Height;
     }
@@ -75,7 +67,6 @@ class Game {
         Console.SetCursorPosition(0, 0);
         grid.Draw();
         DrawScore();
-        lastDraw = time.ElapsedMilliseconds;
         Console.SetCursorPosition(0, grid.Height + 2);
 
         void DrawScore() {

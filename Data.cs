@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Snake;
 
@@ -10,12 +11,17 @@ abstract record Data(int X, int Y, char Image) {
 
 record Player(int X, int Y, char Image) : Data(X, Y, Image) {
     ConsoleKey direction;
+    Stopwatch time = null!;
 
     public int Length { get; set; } = 1;
+    int Interval => 1_000 - Length * 100 + 100;
+
+    public bool TimeToMove() => time.ElapsedMilliseconds >= Interval;
 
     public void Move(ConsoleKey newDirection) {
         SetDirection();
         SetPosition();
+        time = Stopwatch.StartNew();
 
         void SetDirection() {
             switch (direction) {
