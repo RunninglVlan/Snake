@@ -29,15 +29,17 @@ class Game {
                 DrawGame();
             }
 
-            if (player.TimeToMove()) {
-                player.Move(direction);
-                DrawGame();
+            if (!player.TimeToMove()) {
+                continue;
             }
 
+            player.Move(direction);
             if (PlayerOutOfGrid()) {
                 DrawGameOver();
                 break;
             }
+
+            DrawGame();
         }
 
         bool PlayerOutOfGrid() => player.X < 0 || player.X > grid.Width || player.Y < 0 || player.Y > grid.Height;
