@@ -34,6 +34,11 @@ class Game {
             }
 
             player.Move(direction);
+            if (player.PositionEquals(berry)) {
+                player.Length++;
+                berry.Move();
+            }
+
             if (PlayerOutOfGrid()) {
                 DrawGameOver();
                 break;

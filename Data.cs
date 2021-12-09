@@ -7,6 +7,8 @@ abstract record Data(int X, int Y, char Image) {
     public int X { get; protected set; } = X;
     public int Y { get; protected set; } = Y;
     public char Image { get; } = Image;
+
+    public bool PositionEquals(Data other) => X == other.X && Y == other.Y;
 }
 
 record Player(int X, int Y, char Image) : Data(X, Y, Image) {
@@ -14,7 +16,7 @@ record Player(int X, int Y, char Image) : Data(X, Y, Image) {
     Stopwatch time = null!;
 
     public int Length { get; set; } = 1;
-    int Interval => 1_000 - Length * 100 + 100;
+    int Interval => Length < 10 ? 1_000 - Length * 100 + 100 : 100;
 
     public bool TimeToMove() => time.ElapsedMilliseconds >= Interval;
 
