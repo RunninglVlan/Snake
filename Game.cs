@@ -15,9 +15,10 @@ class Game {
 
     public Game(int width, int height) {
         grid = new Grid(width, height);
-        player = new Player(1, grid.Height / 2) {
+        player = new Player(1, grid.Height / 2, 'O') {
             Direction = direction = ConsoleKey.RightArrow
         };
+        grid.Add(player);
         interval = 1_000;
         lastDraw = -interval;
     }
@@ -74,7 +75,7 @@ class Game {
 
     void DrawGame() {
         Console.SetCursorPosition(0, 0);
-        grid.Draw(player, new Berry(0, 0));
+        grid.Draw();
         DrawScore();
         lastDraw = time.ElapsedMilliseconds;
         Console.SetCursorPosition(0, grid.Height + 2);

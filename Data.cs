@@ -2,12 +2,13 @@
 
 namespace Snake;
 
-abstract record Data(int X, int Y) {
+abstract record Data(int X, int Y, char Image) {
     public int X { get; protected set; } = X;
     public int Y { get; protected set; } = Y;
+    public char Image { get; } = Image;
 }
 
-record Player(int X, int Y) : Data(X, Y) {
+record Player(int X, int Y, char Image) : Data(X, Y, Image) {
     ConsoleKey direction;
 
     public ConsoleKey Direction {
@@ -27,8 +28,6 @@ record Player(int X, int Y) : Data(X, Y) {
 
     public int Length { get; set; } = 1;
 
-    public bool At(int x, int y) => X == x && Y == y;
-
     public void Move() {
         switch (direction) {
             case ConsoleKey.LeftArrow:
@@ -47,4 +46,4 @@ record Player(int X, int Y) : Data(X, Y) {
     }
 }
 
-record Berry(int X, int Y) : Data(X, Y);
+record Berry(int X, int Y, char Image) : Data(X, Y, Image);
