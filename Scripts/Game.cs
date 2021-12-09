@@ -10,6 +10,11 @@ class Game {
     ConsoleKey direction;
     int controlsHeight;
 
+    static void Main() {
+        var game = new Game(20, 6);
+        game.Play();
+    }
+
     public Game(int width, int height) {
         grid = new Grid(width, height);
         playerStart = (0, grid.Height / 2);
